@@ -26,11 +26,12 @@ public class TesteJPA {
 		System.out.println("3 - DELETAR");
 		System.out.println("4 - LISTAR");
 		System.out.println("5 - ATIVAR");
-		System.out.println("6 - DESATIVAR");
+		System.out.println("6 - DESATIVAR DETACH");
 		System.out.println("7 - LISTAR PREFERENCIA");
 		
 		System.out.println("8 - BUSCAR CLIENTE POR ID USANDO EAGER");
 		System.out.println("9 - BUSCAR CLIENTE POR ID USANDO LAZY");
+		System.out.println("10 - REFRESH CLIENTE");
 		
 		int input = scan.nextInt();
 		
@@ -62,7 +63,9 @@ public class TesteJPA {
 		case 9:
 			PopulaCliente.BuscarClientePorIdLazy();
 			break;
-		
+		case 10:
+			PopulaCliente.refresh();
+			break;
 		}
 		
 	}

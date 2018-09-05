@@ -78,31 +78,32 @@ public class PopulaCliente {
 		em.close();
 
 	}
-	
+
 	public static void BuscarClientePorIdEager() {
-		
+
 		EntityManager em = new JPAUtil().getEntityManger();
 		em.getTransaction().begin();
-		Cliente cliente = em.find(Cliente.class, 1);
+		System.out.println("Id para pesquisar: ");
+		Scanner scan = new Scanner(System.in);
+		Integer id = new Integer(scan.next());
+		Cliente cliente = em.find(Cliente.class, id);
 		System.out.println(cliente);
 		em.getTransaction().commit();
 		em.close();
-		
+		scan.close();
+
 	}
-	
+
 	public static void BuscarClientePorIdLazy() {
 		EntityManager em = new JPAUtil().getEntityManger();
 		em.getTransaction().begin();
-		Cliente cliente = em.getReference(Cliente.class, 1);
+		System.out.println("Id para pesquisar: ");
+		Scanner scan = new Scanner(System.in);
+		Integer id = new Integer(scan.next());
+		Cliente cliente = em.getReference(Cliente.class, id);
 		System.out.println(cliente);
 		em.getTransaction().commit();
 		em.close();
-	}
-	
-	public static void DesvincularCliente() {
-		EntityManager em = new JPAUtil().getEntityManger();
-		em.getTransaction().begin();
-		
 	}
 
 	public static void remover() {
@@ -160,28 +161,48 @@ public class PopulaCliente {
 		String matricula = scan.next();
 		Query busca = em.createNativeQuery("Select * from cliente where matricula =" + matricula, Cliente.class);
 		cliente = (Cliente) busca.getSingleResult();
-		//cliente.setAtivo(false);
+		// cliente.setAtivo(false);
 		em.detach(cliente);
-		//em.merge(cliente);
+		// em.merge(cliente);
 		System.out.println("CLIENTE DESATIVADO COM SUSCESSSO");
 		em.getTransaction().commit();
 		em.close();
 	}
 
-	
 	public static void listarPreferencia() {
-		
+
 		Scanner scan = new Scanner(System.in);
 		EntityManager em = new JPAUtil().getEntityManger();
 		em.getTransaction().begin();
 		System.out.println("Matricula para atualizar: ");
 		String matricula = scan.next();
-		Cliente cliente = (Cliente) em.createNativeQuery("Select * from cliente where matricula =" + matricula, Cliente.class).getSingleResult();
+		Cliente cliente = (Cliente) em
+				.createNativeQuery("Select * from cliente where matricula =" + matricula, Cliente.class)
+				.getSingleResult();
 		Preferencia preferencia = cliente.getPreferencia();
 		System.out.println(preferencia.getPreferencia());
-        em.getTransaction().commit();
+		em.getTransaction().commit();
 		em.close();
 
+	}
+
+	public static void refresh() {
+		EntityManager em = new JPAUtil().getEntityManger();
+		em.getTransaction().begin();
+		Cliente cliente = em.getReference(Cliente.class, 1);
+		System.out.println("info cliente antes");
+		System.out.println(cliente);
+		em.getTransaction().commit();
+		try {
+			Thread.sleep(30000);
+			em.refresh(cliente);
+			System.out.println(cliente);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		em.close();
 	}
 
 }
