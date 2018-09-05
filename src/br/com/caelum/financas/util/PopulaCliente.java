@@ -78,6 +78,32 @@ public class PopulaCliente {
 		em.close();
 
 	}
+	
+	public static void BuscarClientePorIdEager() {
+		
+		EntityManager em = new JPAUtil().getEntityManger();
+		em.getTransaction().begin();
+		Cliente cliente = em.find(Cliente.class, 1);
+		System.out.println(cliente);
+		em.getTransaction().commit();
+		em.close();
+		
+	}
+	
+	public static void BuscarClientePorIdLazy() {
+		EntityManager em = new JPAUtil().getEntityManger();
+		em.getTransaction().begin();
+		Cliente cliente = em.getReference(Cliente.class, 1);
+		System.out.println(cliente);
+		em.getTransaction().commit();
+		em.close();
+	}
+	
+	public static void DesvincularCliente() {
+		EntityManager em = new JPAUtil().getEntityManger();
+		em.getTransaction().begin();
+		
+	}
 
 	public static void remover() {
 		Cliente cliente = new Cliente();
@@ -134,13 +160,15 @@ public class PopulaCliente {
 		String matricula = scan.next();
 		Query busca = em.createNativeQuery("Select * from cliente where matricula =" + matricula, Cliente.class);
 		cliente = (Cliente) busca.getSingleResult();
-		cliente.setAtivo(false);
-		em.merge(cliente);
+		//cliente.setAtivo(false);
+		em.detach(cliente);
+		//em.merge(cliente);
 		System.out.println("CLIENTE DESATIVADO COM SUSCESSSO");
 		em.getTransaction().commit();
 		em.close();
 	}
 
+	
 	public static void listarPreferencia() {
 		
 		Scanner scan = new Scanner(System.in);
