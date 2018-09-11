@@ -10,14 +10,14 @@ import javax.persistence.Persistence;
 
 import br.com.caelum.financas.modelo.Cliente;
 import br.com.caelum.financas.util.JPAUtil;
-import br.com.caelum.financas.util.PopulaCliente;
+import br.com.caelum.financas.util.ClienteService;
 
 public class TesteJPA {
 
 	public static void main(String[] args) {
 		Cliente cliente = new Cliente();
 		Scanner scan = new Scanner(System.in);
-		PopulaCliente popula = new PopulaCliente();
+		ClienteService popula = new ClienteService();
 		
 		
 		
@@ -37,34 +37,34 @@ public class TesteJPA {
 		
 		switch (input) {
 		case 1:
-			PopulaCliente.popula();
+			ClienteService.popula();
 			break;
 		case 2:
-			PopulaCliente.atualiza();
+			ClienteService.atualiza();
 			break;
 		case 3:
-			PopulaCliente.remover();
+			ClienteService.remover();
 			break;
 		case 4:
-			PopulaCliente.listar();
+			ClienteService.listar();
 			break;
 		case 5:
-			PopulaCliente.ativar();
+			ClienteService.ativar();
 			break;
 		case 6:
-			PopulaCliente.desativar();
+			ClienteService.desativar();
 			break;
 		case 7:
-			PopulaCliente.listarPreferencia();
+			ClienteService.listarPreferencia();
 			break;
 		case 8:
-			PopulaCliente.BuscarClientePorIdEager();
+			ClienteService.BuscarClientePorIdEager();
 			break;
 		case 9:
-			PopulaCliente.BuscarClientePorIdLazy();
+			ClienteService.BuscarClientePorIdLazy();
 			break;
 		case 10:
-			PopulaCliente.refresh();
+			ClienteService.refresh();
 			break;
 		}
 		

@@ -9,14 +9,23 @@ import javax.persistence.Query;
 import br.com.caelum.financas.modelo.Cliente;
 import br.com.caelum.financas.modelo.Preferencia;
 
-public class PopulaCliente {
+public class ClienteService extends PopulaAbs {
 	EntityManager em = new JPAUtil().getEntityManger();
+	private static PopulaAbs abs = new PopulaAbs() {
+	};
 
 	public static void popula() {
 		Preferencia preferencia = new Preferencia();
 		Scanner scan = new Scanner(System.in);
 		Cliente cliente = new Cliente();
 
+		instCliente(scan, cliente);
+
+		abs.inserir(cliente);
+		// PopuplaPreferencia.savePreferencia();
+	}
+
+	private static void instCliente(Scanner scan, Cliente cliente) {
 		System.out.println("digite o nome: ");
 		cliente.setNome(scan.next());
 
@@ -28,54 +37,22 @@ public class PopulaCliente {
 
 		cliente.setAtivo(true);
 
-		EntityManager em = new JPAUtil().getEntityManger();
-		em.getTransaction().begin();
-		em.persist(cliente);
-		em.getTransaction().commit();
-		em.close();
-
-		System.out.println("Digite 0 para ADD preferencia Ou 1 para não");
-		if (scan.nextInt() == 0) {
-			preferencia.setIdCliente(cliente);
-			preferencia.setPreferencia("CLIENTE PREFERENCIAL");
-
-		} else {
-			preferencia.setIdCliente(cliente);
-			preferencia.setPreferencia("NENHUMA PREFENCIA");
-
-		}
-
-		EntityManager em1 = new JPAUtil().getEntityManger();
-		em1.getTransaction().begin();
-		em1.persist(preferencia);
-		em1.getTransaction().commit();
-		em1.close();
-
-		scan.close();
 	}
 
 	public static void atualiza() {
 		Cliente cliente = new Cliente();
-
 		Scanner scan = new Scanner(System.in);
 		EntityManager em = new JPAUtil().getEntityManger();
-		em.getTransaction().begin();
+		
+		
 		System.out.println("Matricula para atualizar: ");
 		String matricula = scan.next();
 		Query busca = em.createNativeQuery("Select * from cliente where matricula =" + matricula, Cliente.class);
 		cliente = (Cliente) busca.getSingleResult();
 
-		System.out.println("digite o nome: ");
-		cliente.setNome(scan.next());
-
-		System.out.println("digite o sobrenome: ");
-		cliente.setSobrenome(scan.next());
-
-		System.out.println("digite matricula: ");
-		cliente.setMatricula(scan.next());
-		em.merge(cliente);
-		em.getTransaction().commit();
-		em.close();
+		instCliente(scan, cliente);
+		abs.atualiza(cliente);
+		
 
 	}
 
@@ -204,5 +181,18 @@ public class PopulaCliente {
 
 		em.close();
 	}
+
+	@Override
+	public void inserir(Object obj) {
+		// TODO Auto-generated method stub
+		EntityManager em = new JPAUtil().getEntityManger();
+		em.getTransaction().begin();
+		em.persist(obj);
+		em.getTransaction().commit();
+		em.close();
+
+	}
+
+
 
 }
