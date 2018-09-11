@@ -87,14 +87,15 @@ public class ClienteService extends PopulaAbs {
 		Cliente cliente = new Cliente();
 		Scanner scan = new Scanner(System.in);
 		EntityManager em = new JPAUtil().getEntityManger();
-		em.getTransaction().begin();
+		
+		
+		
 		System.out.println("Matricula para DELETAR: ");
 		String matricula = scan.next();
-		Query remover = em.createNativeQuery("Select * from cliente where matricula = " + matricula, Cliente.class);
-		cliente = (Cliente) remover.getSingleResult();
-		em.remove(cliente);
-		em.getTransaction().commit();
-		em.close();
+		Query busca = em.createNativeQuery("Select * from cliente where matricula =" + matricula, Cliente.class);
+		cliente = (Cliente) busca.getSingleResult();
+		abs.remover(cliente, em);
+		
 
 	}
 

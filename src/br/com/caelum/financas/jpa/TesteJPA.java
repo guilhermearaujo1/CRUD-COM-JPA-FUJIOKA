@@ -30,7 +30,7 @@ public class TesteJPA {
 		System.out.println("7 - LISTAR PREFERENCIA");
 		
 		System.out.println("8 - BUSCAR CLIENTE POR ID USANDO EAGER");
-		System.out.println("9 - BUSCAR CLIENTE POR ID USANDO LAZY");
+		System.out.println("9 - BUSCAR CLIENTE POR I3D USANDO LAZY");
 		System.out.println("10 - REFRESH CLIENTE");
 		
 		int input = scan.nextInt();

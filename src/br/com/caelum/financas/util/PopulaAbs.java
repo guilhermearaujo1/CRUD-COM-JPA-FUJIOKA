@@ -35,13 +35,13 @@ public abstract class PopulaAbs implements Popula {
 
 
 	@Override
-	public void remover(Object obj) {
-		EntityManager em = new JPAUtil().getEntityManger();
+	public void remover(Object obj, EntityManager em) {
 		em.getTransaction().begin();
+		em.merge(obj);
 		em.remove(obj);
 		em.getTransaction().commit();
 		em.close();
 		
 	}
-
+ 
 }
