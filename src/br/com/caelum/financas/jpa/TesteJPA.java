@@ -57,12 +57,6 @@ public class TesteJPA {
 		case 7:
 			ClienteService.listarPreferencia();
 			break;
-		case 8:
-			ClienteService.BuscarClientePorIdEager();
-			break;
-		case 9:
-			ClienteService.BuscarClientePorIdLazy();
-			break;
 		case 10:
 			ClienteService.refresh();
 			break;

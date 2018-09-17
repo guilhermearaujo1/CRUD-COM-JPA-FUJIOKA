@@ -13,6 +13,8 @@ public class ClienteService extends PopulaAbs {
 	EntityManager em = new JPAUtil().getEntityManger();
 	private static PopulaAbs abs = new PopulaAbs() {
 	};
+	
+	QueryBuilder queryBuilder = new QueryBuilder();
 
 	public static void popula() {
 		Preferencia preferencia = new Preferencia();
@@ -42,47 +44,16 @@ public class ClienteService extends PopulaAbs {
 	public static void atualiza() {
 		Cliente cliente = new Cliente();
 		Scanner scan = new Scanner(System.in);
-		EntityManager em = new JPAUtil().getEntityManger();
 		
-		
-		System.out.println("Matricula para atualizar: ");
-		String matricula = scan.next();
-		Query busca = em.createNativeQuery("Select * from cliente where matricula =" + matricula, Cliente.class);
-		cliente = (Cliente) busca.getSingleResult();
+		QueryBuilder queryBuilder = new QueryBuilder();
+		cliente = (Cliente) queryBuilder.buildQueryBusca().getSingleResult();
 
 		instCliente(scan, cliente);
 		abs.atualiza(cliente);
 		
 
 	}
-
-	public static void BuscarClientePorIdEager() {
-
-		EntityManager em = new JPAUtil().getEntityManger();
-		em.getTransaction().begin();
-		System.out.println("Id para pesquisar: ");
-		Scanner scan = new Scanner(System.in);
-		Integer id = new Integer(scan.next());
-		Cliente cliente = em.find(Cliente.class, id);
-		System.out.println(cliente);
-		em.getTransaction().commit();
-		em.close();
-		scan.close();
-
-	}
-
-	public static void BuscarClientePorIdLazy() {
-		EntityManager em = new JPAUtil().getEntityManger();
-		em.getTransaction().begin();
-		System.out.println("Id para pesquisar: ");
-		Scanner scan = new Scanner(System.in);
-		Integer id = new Integer(scan.next());
-		Cliente cliente = em.getReference(Cliente.class, id);
-		System.out.println(cliente);
-		em.getTransaction().commit();
-		em.close();
-	}
-
+	
 	public static void remover() {
 		Cliente cliente = new Cliente();
 		Scanner scan = new Scanner(System.in);
@@ -90,10 +61,9 @@ public class ClienteService extends PopulaAbs {
 		
 		
 		
-		System.out.println("Matricula para DELETAR: ");
-		String matricula = scan.next();
-		Query busca = em.createNativeQuery("Select * from cliente where matricula =" + matricula, Cliente.class);
-		cliente = (Cliente) busca.getSingleResult();
+		QueryBuilder queryBuilder = new QueryBuilder();
+		cliente = (Cliente) queryBuilder.buildQueryBusca().getSingleResult();
+		System.out.println(cliente.getNome());
 		abs.remover(cliente, em);
 		
 
@@ -102,8 +72,10 @@ public class ClienteService extends PopulaAbs {
 	public static List<Cliente> listar() {
 		EntityManager em = new JPAUtil().getEntityManger();
 		em.getTransaction().begin();
-		Query consulta = em.createNativeQuery("Select * from cliente", Cliente.class);
-		List<Cliente> lista = consulta.getResultList();
+		QueryBuilder queryBuilder = new QueryBuilder();
+		
+		
+		List<Cliente> lista = queryBuilder.buildQueryLista().getResultList();
 		for (Cliente c : lista) {
 			System.out.println(c);
 		}
@@ -181,17 +153,6 @@ public class ClienteService extends PopulaAbs {
 		}
 
 		em.close();
-	}
-
-	@Override
-	public void inserir(Object obj) {
-		// TODO Auto-generated method stub
-		EntityManager em = new JPAUtil().getEntityManger();
-		em.getTransaction().begin();
-		em.persist(obj);
-		em.getTransaction().commit();
-		em.close();
-
 	}
 
 
